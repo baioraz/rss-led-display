@@ -14,7 +14,7 @@ enum wireless_operation {
 void setRXmode() {
     // set up RX.
 
-    SPI_Transmit(0x05, 0x80);
+    SPI_Transmit(0x05, 0x82);
     SPI_Transmit(0x0F, 0x13);
 
     return;
@@ -43,6 +43,7 @@ void wirelessTransceiverInit() {
     SPI_Transmit(0x16, 0x14); //CRC MSB
     SPI_Transmit(0x1B, 0x55); //TX_OFFSET_LSB
     SPI_Transmit(0x1C, 0x05); //TX_OFFSET_MSB
+//    SPI_Transmit(0x0D, 0x40); // IRQ polarity HIGH, default LOW
 
     SPI_Transmit(0x26, 0x08); // XTAL_CFG  (must)
     //SPI_Transmit(0x28,0x02);        // (must)
@@ -302,16 +303,16 @@ unsigned char checkReceptionStatus() {
 //        message_buffer[11] = status<<1;
 //        display_buffer(message_buffer, 0);
         if(status & 0x01) {
-            SPI_Transmit(0x05,0x80);            //RX_GO
+            SPI_Transmit(0x05,0x82);            //RX_GO
             status = 0x00;
             timeout=0;// transmission failed.
         }
         if(status & (1<<2)) {
-            SPI_Transmit(0x05,0x80);            //RX_GO
+            SPI_Transmit(0x05,0x82);            //RX_GO
             status = 0x00;
             timeout=0;// buffer fail
         } else if (status & 0x02) {
-            SPI_Transmit(0x05,0x80);            //RX_GO
+            SPI_Transmit(0x05,0x82);            //RX_GO
             status = 0x00;
             timeout=0;
             unsigned char rxStatus = SPI_Receive(0x08);
@@ -320,7 +321,7 @@ unsigned char checkReceptionStatus() {
 //            display_buffer(message_buffer, 0);
             //if error set required bits and continue
             if ((rxStatus & 0x40) || (rxStatus & 0x20) || (rxStatus & 0x10) || (rxStatus & 0x08) || !(!(rxStatus & 0x02) & (rxStatus & 0x01))) {
-                SPI_Transmit(0x05,0x80);            //RX_GO
+                SPI_Transmit(0x05,0x82);            //RX_GO
                 SPI_Transmit(0x07,0x80);            //Set Receive Overwrite Interrupt Status
             } else {
                 if (!(rxStatus & 0x08)){
@@ -328,7 +329,7 @@ unsigned char checkReceptionStatus() {
                 }
             }
         } else if(timeout >= 10){
-            SPI_Transmit(0x05,0x80);            //RX_GO
+            SPI_Transmit(0x05,0x82);            //RX_GO
             status = 0x00;
             timeout=0; // transmission timeout
         } else if (!(status & (1<<6))){  // <don't need 1<<6

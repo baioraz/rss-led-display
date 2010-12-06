@@ -14,8 +14,9 @@ unsigned char showDigit = 0;
 
 int main() {
     portsInit();
-    sei();
     //Enable global interupts
+    sei();
+//    externalInterruptsInit();
     adcInit(); //init Analog->Digital converter
     timer16Init(); //init 16 bit timer counter
     //initializeTimer8_0();  //init 8 bit timer counter 0
@@ -66,6 +67,11 @@ int main() {
 //###################################################
 //############ INTERRUPTS ###########################
 //###################################################
+//ISR(INT0_vect) {
+//    currentMode = WIRELESS_DATA;
+//}
+
+
 
 ISR(USART_RXC_vect)
 {

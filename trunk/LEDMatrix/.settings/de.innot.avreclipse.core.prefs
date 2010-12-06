@@ -1,4 +1,4 @@
-#Sun Mar 21 23:20:09 EET 2010
+#Thu Dec 02 17:02:55 EET 2010
 avrtarget/ClockFrequency=16000000
 avrtarget/ExtRAMSize=0
 avrtarget/ExtendedRAM=false
@@ -9,7 +9,7 @@ avrtarget/avrdude/BitBangDelay=
 avrtarget/avrdude/Bitclock=
 avrtarget/avrdude/EEPROMFile=
 avrtarget/avrdude/EEPROMFromConfig=true
-avrtarget/avrdude/FlashFile=
+avrtarget/avrdude/FlashFile=${workspace_loc\:/LEDMatrix/Release/LEDMatrix.hex}
 avrtarget/avrdude/FlashFromConfig=true
 avrtarget/avrdude/Fuses/ByteValues=255\:201
 avrtarget/avrdude/Fuses/FileName=
