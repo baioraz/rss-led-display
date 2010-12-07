@@ -16,7 +16,7 @@ int main() {
     portsInit();
     //Enable global interupts
     sei();
-//    externalInterruptsInit();
+    externalInterruptsInit();
     adcInit(); //init Analog->Digital converter
     timer16Init(); //init 16 bit timer counter
     //initializeTimer8_0();  //init 8 bit timer counter 0
@@ -26,6 +26,7 @@ int main() {
     //initializeTemperatureSensor();
     wirelessTransceiverInit();
 
+    setRXmode();
     while (1) {
         unsigned char numberOfPackets = 0;
         switch (currentMode) {
@@ -50,7 +51,7 @@ int main() {
                 break;
             case WIRELESS_DATA:
                 clearBoard();
-                numberOfPackets = doWirelessCommunication();
+                numberOfPackets = receiveWirelessData();
                 if (numberOfPackets > 0) {
                     displayMessage(numberOfPackets * 16, 0);
                 }
@@ -67,9 +68,9 @@ int main() {
 //###################################################
 //############ INTERRUPTS ###########################
 //###################################################
-//ISR(INT0_vect) {
-//    currentMode = WIRELESS_DATA;
-//}
+ISR(INT0_vect) {
+    currentMode = WIRELESS_DATA;
+}
 
 
 

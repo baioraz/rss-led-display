@@ -17,10 +17,10 @@ void setTXmode();
 unsigned char checkReceptionStatus();
 void wirelessTransceiverInit();
 unsigned char receiveConfigurationPacket(unsigned char *packet);
-unsigned char receiveData(unsigned char numberOfPackets, unsigned char *packet, unsigned char isConfig);
+unsigned char receiveData();
 void transmitData(unsigned char *packet);
-unsigned char doWirelessCommunication();
-unsigned char receivePacket(unsigned char *packet, unsigned char firstPacket, unsigned char configurationData, unsigned short index);
+unsigned char receiveWirelessData();
+unsigned char receivePacket(unsigned char firstPacket, unsigned short index);
 void prepareStatusMessage(unsigned char responseBytesCount, unsigned char status, unsigned char *dataBuffer);
 void displayStatus();
 
