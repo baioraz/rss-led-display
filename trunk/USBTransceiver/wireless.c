@@ -152,30 +152,3 @@ unsigned char checkReceptionStatus() {
     return 0;
 }
 
-// check if data has been received on RF module.
-unsigned char receivePacket(unsigned char * packet) {
-
-    packetReceiveTimeout = 0;
-    unsigned char newdata = 0;
-    while (!newdata && (packetReceiveTimeout < 8)) {
-        newdata = checkReceptionStatus();
-    }
-    if (packetReceiveTimeout == 8) {
-        return 0;
-    }
-
-    if (newdata) {
-        packetReceiveTimeout = 0;
-        SPI_Transmit(0x07, 0x80);
-        for (unsigned char i = 0; i < 16; i++) {
-            packet[i] = SPI_Receive(0x21);
-        }
-    }
-
-    return newdata;
-
-}
-
-
-
-
