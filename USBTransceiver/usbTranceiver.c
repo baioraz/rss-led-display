@@ -4,7 +4,7 @@ int main() {
 
     init_ports();
     sei();
-    timer16_init();
+//    timer16_init();
     spiMasterInit();
     _delay_ms(1000);
     wirelessTransceiverInit();
@@ -12,11 +12,9 @@ int main() {
     unsigned char packet[16];
     unsigned char message[16];
     unsigned char transmissionStatus = 0x00;
-    unsigned char receptionStatus = 0x00;
 
     while (1) {
 
-        setRXmode();
         setTXmode();
 
         for (unsigned char i = 0; i < 16; i++)
@@ -43,30 +41,6 @@ int main() {
                 setTXmode();
                 transmissionStatus = transmitPacket(packet);
                 sendDataToFifo(transmissionStatus);
-            }
-
-            //Receive response message
-            setRXmode();
-            receptionStatus = receivePacket(message);
-            sendDataToFifo(packetReceiveTimeout);
-            for (unsigned char i = 0; i < 16; i++) {
-                sendDataToFifo(message[i]);
-            }
-
-            //If response message is 'OK' receive data from MATRIX
-            if (message[1] == 'O' && message[2] == 'K') {
-
-                unsigned char numberOfResponsePackets = message[0];
-
-                for (unsigned char j = 0; j < numberOfResponsePackets; j++) {
-                    setRXmode();
-                    receptionStatus = receivePacket(message);
-                    sendDataToFifo(receptionStatus);
-
-                    for (unsigned char i = 0; i < 16; i++) {
-                        sendDataToFifo(message[i]);
-                    }
-                }
             }
 
             sendDataToFifo(88);
